@@ -1,7 +1,6 @@
-package com.example;
+package com.example.config.stores;
 
 
-import com.example.models.active.Person;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,50 +24,50 @@ import javax.persistence.EntityManagerFactory;
 
 @Configuration
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "masterEntityManager",
-        transactionManagerRef = "masterTransactionManager",
+        entityManagerFactoryRef = "activeModelsEntityManager",
+        transactionManagerRef = "activeModelsTransactionManager",
         basePackages = { "com.example.models.active" })
-public class MasterConfig {
-    private static final Logger LOG = LoggerFactory.getLogger(MasterConfig.class);
+public class ActiveModelsConfig {
+    private static final Logger LOG = LoggerFactory.getLogger(ActiveModelsConfig.class);
 
     @Autowired(required = false)
     private PersistenceUnitManager persistenceUnitManager;
 
     @Bean
     @Primary
-    @ConfigurationProperties("app.master.jpa")
-    public JpaProperties masterJpaProperties() {
+    @ConfigurationProperties("app.active-models.jpa")
+    public JpaProperties activeModelsJpaProperties() {
         return new JpaProperties();
     }
 
     @Bean
     @Primary
-    @ConfigurationProperties(prefix = "app.master.datasource")
-    public DataSource masterDataSource() {
+    @ConfigurationProperties(prefix = "app.active-models.datasource")
+    public DataSource activeModelsDataSource() {
         return (DataSource) DataSourceBuilder.create().type(DataSource.class).build();
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean masterEntityManager(
-            JpaProperties masterJpaProperties) {
-        EntityManagerFactoryBuilder builder = createEntityManagerFactoryBuilder(masterJpaProperties);
+    public LocalContainerEntityManagerFactoryBean activeModelsEntityManager(
+            JpaProperties activeModelsJpaProperties) {
+        EntityManagerFactoryBuilder builder = createEntityManagerFactoryBuilder(activeModelsJpaProperties);
         return builder
-                .dataSource(masterDataSource())
+                .dataSource(activeModelsDataSource())
                 .packages("com.example.models.active")
-                .persistenceUnit("mastersDs")
+                .persistenceUnit("activeModelssDs")
                 .build();
     }
 
     @Bean
     @Primary
-    public JpaTransactionManager masterTransactionManager(EntityManagerFactory masterEntityManager) {
-        return new JpaTransactionManager(masterEntityManager);
+    public JpaTransactionManager activeModelsTransactionManager(EntityManagerFactory activeModelsEntityManager) {
+        return new JpaTransactionManager(activeModelsEntityManager);
     }
 
-    private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties masterJpaProperties) {
-        JpaVendorAdapter jpaVendorAdapter = createJpaVendorAdapter(masterJpaProperties);
+    private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties activeModelsJpaProperties) {
+        JpaVendorAdapter jpaVendorAdapter = createJpaVendorAdapter(activeModelsJpaProperties);
         return new EntityManagerFactoryBuilder(jpaVendorAdapter,
-                masterJpaProperties.getProperties(), this.persistenceUnitManager);
+                activeModelsJpaProperties.getProperties(), this.persistenceUnitManager);
     }
 
     private JpaVendorAdapter createJpaVendorAdapter(JpaProperties jpaProperties) {

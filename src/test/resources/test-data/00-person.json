@@ -1,13 +1,13 @@
 [
   {
     "_class": "com.example.models.active.Person",
-    "id": 1,
+    "@id": 1,
     "firstName": "Dave",
     "lastName": "Matthews"
   },
   {
     "_class": "com.example.models.active.Person",
-    "id": 1,
+    "@id": 1,
     "firstName": "Carter",
     "lastName": "Beauford"
   }

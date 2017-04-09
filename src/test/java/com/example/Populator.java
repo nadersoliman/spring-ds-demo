@@ -1,26 +1,29 @@
 package com.example;
 
-import org.springframework.boot.test.context.TestComponent;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
 
 @TestConfiguration
+@Profile("test")
 public class Populator {
 
+    @Autowired
+    ObjectMapper jsonMapper;
+
+    @Autowired
+    ResourcePatternResolver resourceResolver;
+
     @Bean
-    public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
-
-        Resource sourceData = new ClassPathResource("person.json");
-
+    public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() throws Exception {
         Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
-        // Set a custom ObjectMapper if Jackson customization is needed
-//        factory.setObjectMapper(…);
-        factory.setResources(new Resource[] { sourceData });
+        factory.setMapper(jsonMapper);
+        factory.setResources(resourceResolver.getResources("classpath:test-data/*.json"));
+        factory.afterPropertiesSet();
         return factory;
     }
 }
