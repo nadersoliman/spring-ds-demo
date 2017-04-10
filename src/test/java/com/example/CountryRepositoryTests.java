@@ -1,6 +1,6 @@
 package com.example;
 
-import com.example.models.active.PersonRepository;
+import com.example.models.passive.CountryRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,15 +12,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Populator.class})
 @DirtiesContext
-public class PersonRepositoryTests {
+public class CountryRepositoryTests {
 
     @Autowired
-    PersonRepository personRepository;
+    CountryRepository countryRepository;
 
     @Test
-    public void twoPersons() {
+    public void twoCountries() {
 
-        Assert.assertEquals(2, personRepository.count());
+        Assert.assertEquals(2, countryRepository.count());
 
     }
 }

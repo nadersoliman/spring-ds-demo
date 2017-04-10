@@ -6,3 +6,10 @@ app:
           hbm2ddl:
             auto: create
           show_sql: true
+  passive-models:
+    jpa:
+      properties:
+        hibernate:
+          hbm2ddl:
+            auto: create
+          show_sql: true

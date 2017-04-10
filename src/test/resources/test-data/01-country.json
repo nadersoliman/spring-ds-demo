@@ -1,0 +1,12 @@
+[
+  {
+    "_class": "com.example.models.passive.Country",
+    "@id": 1,
+    "name": "Egypt"
+  },
+  {
+    "_class": "com.example.models.passive.Country",
+    "@id": 1,
+    "name": "Germany"
+  }
+]
